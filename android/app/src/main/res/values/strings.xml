@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Shareek</string>
+    <string name="blocker_label">Shareek Pray First</string>
+    <string name="blocker_description">Pauses the apps you choose for a short time after each prayer. It only checks which app is in front. It cannot read your screen, your messages or anything you type.</string>
+</resources>

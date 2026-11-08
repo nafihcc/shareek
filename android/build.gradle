@@ -1,0 +1,5 @@
+// Top-level build file. Plain Java app, no Kotlin and no AndroidX, so the only
+// thing Gradle has to download is the Android Gradle Plugin itself.
+plugins {
+    id 'com.android.application' version '8.7.3' apply false
+}

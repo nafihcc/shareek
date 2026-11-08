@@ -1,0 +1,427 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+
+  --font-display: "Fraunces", Georgia, serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-arabic: "Amiri Quran", "Scheherazade New", serif;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+
+  --color-brand: var(--brand);
+  --color-brand-soft: var(--brand-soft);
+  --color-gold: var(--gold);
+  --color-surface: var(--surface);
+  --color-mist: var(--mist);
+  --color-deep: var(--deep);
+  --color-glass: var(--glass);
+  --color-hairline: var(--hairline);
+  --color-panel: var(--panel);
+  --color-overlay: var(--overlay);
+  --color-on-overlay: var(--on-overlay);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  --radius: 0.9rem;
+
+  /* Ink, porcelain and vermilion — no green-tinted surfaces. */
+  --brand: oklch(0.36 0.09 255);
+  --brand-soft: oklch(0.53 0.09 250);
+  --gold: oklch(0.62 0.18 28);
+  --surface: oklch(0.975 0.004 270);
+  --mist: oklch(0.935 0.008 260);
+  --deep: oklch(0.22 0.022 260);
+  --glass: oklch(1 0 0 / 55%);
+  --hairline: oklch(1 0 0 / 60%);
+  --panel: oklch(1 0 0);
+  --overlay: oklch(0.22 0.022 260);
+  --on-overlay: oklch(0.99 0 0);
+  --dial-fill: conic-gradient(from 0deg, color-mix(in oklab, var(--gold) 55%, var(--panel)), color-mix(in oklab, var(--brand) 35%, var(--panel)), color-mix(in oklab, var(--gold) 55%, var(--panel)));
+  --dial-shadow: inset 0 0 40px oklch(0 0 0 / 12%);
+
+  --background: var(--surface);
+  --foreground: var(--deep);
+  --card: oklch(1 0 0 / 70%);
+  --card-foreground: var(--deep);
+  --popover: oklch(0.995 0.002 260);
+  --popover-foreground: var(--deep);
+  --primary: var(--brand);
+  --primary-foreground: oklch(0.99 0 0);
+  --secondary: var(--mist);
+  --secondary-foreground: var(--deep);
+  --muted: var(--mist);
+  --muted-foreground: oklch(0.5 0.018 260);
+  --accent: var(--gold);
+  --accent-foreground: oklch(0.99 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.99 0 0);
+  --border: oklch(0.87 0.008 260);
+  --input: oklch(0.87 0.008 260);
+  --ring: var(--brand);
+
+  --chart-1: var(--brand);
+  --chart-2: var(--gold);
+  --chart-3: oklch(0.58 0.07 245);
+  --chart-4: oklch(0.62 0.13 25);
+  --chart-5: oklch(0.47 0.025 260);
+
+  --sidebar: oklch(0.99 0.003 260);
+  --sidebar-foreground: var(--deep);
+  --sidebar-primary: var(--brand);
+  --sidebar-primary-foreground: oklch(0.99 0 0);
+  --sidebar-accent: var(--mist);
+  --sidebar-accent-foreground: var(--deep);
+  --sidebar-border: oklch(0.87 0.008 260);
+  --sidebar-ring: var(--brand);
+}
+
+.dark {
+  color-scheme: dark;
+  --brand: oklch(0.78 0.10 255);
+  --brand-soft: oklch(0.72 0.085 255);
+  --gold: oklch(0.75 0.135 30);
+  --surface: oklch(0.16 0.003 270);
+  --mist: oklch(0.255 0.005 270);
+  --deep: oklch(0.94 0.004 270);
+  --panel: oklch(0.235 0.004 270);
+  --glass: oklch(0.215 0.004 270 / 94%);
+  --hairline: oklch(0.39 0.005 270 / 65%);
+  --card: var(--panel);
+  --popover: var(--panel);
+  --primary-foreground: oklch(0.17 0.01 255);
+  --muted-foreground: oklch(0.7 0.005 270);
+  --accent-foreground: oklch(0.17 0.01 30);
+  --destructive: oklch(0.74 0.155 25);
+  --border: oklch(0.35 0.005 270);
+  --input: var(--border);
+  --sidebar: var(--panel);
+  --sidebar-primary-foreground: var(--primary-foreground);
+  --sidebar-border: var(--border);
+  --dial-shadow: inset 0 0 40px oklch(0 0 0 / 35%);
+}
+
+:root:not(.dark) { color-scheme: light; }
+
+/* ══════════════════════════════════════════════════════════════════
+   Professional design  —  <html data-design="pro">
+   The Classic design above is untouched; this block only re-skins it.
+   Switch with the design button in the header (saved as faiz.design).
+   Deep emerald + muted gold, solid surfaces, tighter radii, sans type.
+   ══════════════════════════════════════════════════════════════════ */
+:root[data-design="pro"] {
+  --radius: 0.625rem;
+
+  --brand: oklch(0.38 0.085 166);
+  --brand-soft: oklch(0.52 0.085 166);
+  --gold: oklch(0.72 0.125 85);
+  --surface: oklch(0.984 0.002 250);
+  --mist: oklch(0.956 0.004 250);
+  --deep: oklch(0.2 0.02 255);
+  --glass: oklch(1 0 0);
+  --hairline: oklch(0.915 0.004 250);
+  --panel: oklch(1 0 0);
+  --overlay: oklch(0.2 0.02 255);
+
+  --card: oklch(1 0 0);
+  --popover: oklch(1 0 0);
+  --muted-foreground: oklch(0.5 0.015 255);
+  --accent-foreground: oklch(0.22 0.03 85);
+  --border: oklch(0.915 0.004 250);
+  --input: oklch(0.915 0.004 250);
+  --dial-shadow: inset 0 0 30px oklch(0 0 0 / 8%);
+
+  --chart-3: oklch(0.58 0.06 190);
+  --chart-4: oklch(0.65 0.11 60);
+}
+
+:root[data-design="pro"].dark {
+  --brand: oklch(0.78 0.11 166);
+  --brand-soft: oklch(0.7 0.09 166);
+  --gold: oklch(0.8 0.12 85);
+  --surface: oklch(0.165 0.01 255);
+  --mist: oklch(0.25 0.01 255);
+  --deep: oklch(0.95 0.004 250);
+  --panel: oklch(0.215 0.01 255);
+  --glass: oklch(0.215 0.01 255);
+  --hairline: oklch(0.33 0.01 255);
+  --card: var(--panel);
+  --popover: var(--panel);
+  --primary-foreground: oklch(0.17 0.02 166);
+  --accent-foreground: oklch(0.2 0.03 85);
+  --muted-foreground: oklch(0.72 0.008 255);
+  --border: oklch(0.33 0.01 255);
+  --input: var(--border);
+  --sidebar: var(--panel);
+  --dial-shadow: inset 0 0 30px oklch(0 0 0 / 30%);
+}
+
+/* Headings: clean sans instead of the Classic serif display face. */
+:root[data-design="pro"] h1,
+:root[data-design="pro"] h2,
+:root[data-design="pro"] h3,
+:root[data-design="pro"] .font-display {
+  font-family: var(--font-sans);
+  letter-spacing: -0.02em;
+  font-weight: 600;
+}
+
+/* No drifting orbs / rotating ornaments in the professional look. */
+:root[data-design="pro"] [data-ui="celestial"] {
+  display: none;
+}
+
+/* Solid, flat surfaces instead of frosted glass. */
+:root[data-design="pro"] .glass-panel {
+  background-color: var(--panel);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: 1px solid var(--border);
+  box-shadow: 0 1px 2px oklch(0.2 0.02 255 / 6%), 0 1px 1px oklch(0.2 0.02 255 / 4%);
+}
+:root[data-design="pro"].dark .glass-panel {
+  box-shadow: none;
+}
+
+/* Header: full-width sticky bar with a hairline rule. */
+:root[data-design="pro"] [data-ui="header-bar"] {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background-color: color-mix(in oklab, var(--panel) 92%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+:root[data-design="pro"] [data-ui="header-bar"] header {
+  border-bottom: 0;
+}
+:root[data-design="pro"] [data-ui="header-bar"] a,
+:root[data-design="pro"] [data-ui="header-bar"] button {
+  border-radius: var(--radius-md);
+}
+:root[data-design="pro"] [data-ui="header-bar"] button {
+  box-shadow: none;
+}
+
+/* Emoji become quiet monochrome glyphs. */
+:root[data-design="pro"] [data-ui="tile-icon"] {
+  background-color: color-mix(in oklab, var(--brand) 9%, var(--panel));
+  color: var(--brand);
+  border-radius: var(--radius-md);
+  box-shadow: none;
+}
+:root[data-design="pro"] [data-ui="tile-icon"],
+:root[data-design="pro"] [data-ui="nav-icon"] {
+  filter: grayscale(1) contrast(1.05);
+}
+:root[data-design="pro"] [data-ui="tile-icon"] {
+  filter: grayscale(1);
+}
+
+/* Footer + mobile bar match the flat language. */
+:root[data-design="pro"] [data-ui="mobile-nav"] {
+  background-color: var(--panel);
+  backdrop-filter: none;
+  box-shadow: 0 -1px 0 var(--border);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  a, a:hover, a:focus, a:active, button, button:hover, button:focus, button:active {
+    text-decoration: none !important;
+  }
+
+  body {
+    background-color: var(--color-surface);
+    color: var(--color-deep);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    touch-action: manipulation;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+  }
+}
+
+@utility no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility glass-panel {
+  background-color: var(--glass);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--hairline);
+  box-shadow: 0 20px 45px -25px color-mix(in oklab, var(--brand) 45%, transparent);
+}
+
+@utility font-arabic {
+  font-family: var(--font-arabic);
+}
+
+@utility quran-page {
+  background-color: color-mix(in oklab, var(--gold) 5%, var(--surface));
+}
+
+@keyframes drift {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(40px, -30px) scale(1.1);
+  }
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+@keyframes drift2 {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-50px, 40px) scale(1.05);
+  }
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+@utility orb-1 {
+  animation: drift 18s ease-in-out infinite;
+  will-change: transform;
+}
+
+@utility orb-2 {
+  animation: drift2 22s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes slow-spin {
+  from {
+    transform: rotate(0deg) translateZ(0);
+  }
+  to {
+    transform: rotate(360deg) translateZ(0);
+  }
+}
+
+@keyframes reverse-slow-spin {
+  from {
+    transform: rotate(0deg) translateZ(0);
+  }
+  to {
+    transform: rotate(-360deg) translateZ(0);
+  }
+}
+
+@keyframes celestial-float {
+  0%, 100% {
+    transform: translateY(0px) scale(1) translateZ(0);
+    opacity: 0.25;
+  }
+  50% {
+    transform: translateY(-16px) scale(1.2) translateZ(0);
+    opacity: 0.7;
+  }
+}
+
+.animate-slow-spin {
+  animation: slow-spin 140s linear infinite;
+  will-change: transform;
+}
+
+.animate-reverse-spin {
+  animation: reverse-slow-spin 180s linear infinite;
+  will-change: transform;
+}
+
+.animate-celestial-float {
+  animation: celestial-float 8s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  header, footer, nav, .no-print {
+    display: none !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+  .glass-panel {
+    background: transparent !important;
+    border: 1px solid #ddd !important;
+    box-shadow: none !important;
+  }
+  table {
+    border-collapse: collapse !important;
+    width: 100% !important;
+  }
+  th, td {
+    border: 1px solid #e2e8f0 !important;
+    padding: 6px 10px !important;
+    color: #1e293b !important;
+  }
+  th {
+    background-color: #f8fafc !important;
+    font-weight: bold !important;
+  }
+}

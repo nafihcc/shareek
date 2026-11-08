@@ -1,0 +1,61 @@
+name: Build Android APK
+
+# Run it from the Actions tab ("Run workflow"), or push a tag like apk-v1.0.0
+# to also attach the APK to a GitHub release.
+on:
+  workflow_dispatch:
+  push:
+    tags: ["apk-v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build the website for the app
+        # The app serves the site from its own root, so the base path is "/".
+        run: |
+          BASE_PATH=/ npm run build:gh
+          mv dist-gh/gh-index.html dist-gh/index.html
+          mkdir -p android/app/src/main/assets/www
+          cp -r dist-gh/. android/app/src/main/assets/www/
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - uses: android-actions/setup-android@v3
+
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: 8.14.3
+
+      - name: Build debug APK
+        working-directory: android
+        run: gradle assembleDebug --no-daemon --stacktrace
+
+      - name: Name the APK
+        run: cp android/app/build/outputs/apk/debug/app-debug.apk shareek-pray-first.apk
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: shareek-pray-first-apk
+          path: shareek-pray-first.apk
+
+      - name: Attach to release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: shareek-pray-first.apk
