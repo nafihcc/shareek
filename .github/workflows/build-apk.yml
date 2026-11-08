@@ -1,10 +1,13 @@
 name: Build Android APK
 
-# Run it from the Actions tab ("Run workflow"), or push a tag like apk-v1.0.0
-# to also attach the APK to a GitHub release.
+# Builds on every push to main, from the Actions tab ("Run workflow"), or when
+# you push a tag like apk-v1.0.0. The APK is published to a GitHub release:
+#   main / manual run -> rolling release "apk-latest" (stable download link)
+#   apk-v* tag        -> a release named after the tag
 on:
   workflow_dispatch:
   push:
+    branches: [main]
     tags: ["apk-v*"]
 
 permissions:
@@ -54,8 +57,11 @@ jobs:
           name: shareek-pray-first-apk
           path: shareek-pray-first.apk
 
-      - name: Attach to release
-        if: startsWith(github.ref, 'refs/tags/')
+      - name: Publish APK to a release
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || 'apk-latest' }}
+          name: Shareek APK
+          body: "Debug-signed APK. Install it on your phone and allow 'install unknown apps'. See android/README.md for setup."
           files: shareek-pray-first.apk
+          make_latest: true
