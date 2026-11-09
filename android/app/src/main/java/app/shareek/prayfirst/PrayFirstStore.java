@@ -31,6 +31,10 @@ public final class PrayFirstStore {
     private static final String K_SCHEDULE = "schedule";
     private static final String K_BYPASS_UNTIL = "bypassUntil";
     private static final String K_TEST_UNTIL = "testUntil";
+    private static final String K_DONE_AT = "donePrayerAt";
+
+    /** In "until I've prayed" mode apps release by themselves after this long. */
+    public static final long PRAYED_CAP_MS = 2 * 60 * 60_000L;
 
     public static final long EMERGENCY_MS = 5 * 60_000L;
 
@@ -48,6 +52,8 @@ public final class PrayFirstStore {
         public boolean enabled = false;
         public int blockMinutes = 20;
         public boolean strict = false;
+        /** true = locked until the user taps "I've prayed"; false = unlock after blockMinutes. */
+        public boolean untilPrayed = true;
         public final Set<String> blocked = new HashSet<>();
         private final Map<String, Boolean> adhan = new HashMap<>();
         private final Map<String, Boolean> block = new HashMap<>();
@@ -98,6 +104,7 @@ public final class PrayFirstStore {
                 int minutes = o.optInt("blockMinutes", 20);
                 cfg.blockMinutes = (minutes >= 1 && minutes <= 180) ? minutes : 20;
                 cfg.strict = o.optBoolean("strict", false);
+                cfg.untilPrayed = !"timer".equals(o.optString("unlock", "prayed"));
 
                 JSONArray pk = o.optJSONArray("blockedPackages");
                 if (pk != null) {
@@ -167,18 +174,34 @@ public final class PrayFirstStore {
 
     // ── The question the blocker asks ──────────────────────────────────
 
-    /** The prayer whose window is open right now, or null. */
+    /** How long a prayer's lock can last, in the current mode. */
+    public static long spanMs(Config cfg) {
+        return cfg.untilPrayed ? PRAYED_CAP_MS : cfg.blockMinutes * 60_000L;
+    }
+
+    /** The prayer whose lock is open right now, or null. */
     public static Entry activeEntry(Context c) {
         Config cfg = loadConfig(c);
         if (!cfg.enabled) return null;
         long now = System.currentTimeMillis();
-        long span = cfg.blockMinutes * 60_000L;
+        long span = spanMs(cfg);
         Entry found = null;
         for (Entry e : loadSchedule(c)) {
             if (e.at > now) break;
             if (now < e.at + span && cfg.blockFor(e.key)) found = e;
         }
+        // "I've prayed" was tapped for this prayer: nothing is locked any more.
+        if (found != null && cfg.untilPrayed && prefs(c).getLong(K_DONE_AT, 0L) == found.at) return null;
         return found;
+    }
+
+    /** The user tapped "I've prayed": release the current lock. */
+    public static void markPrayed(Context c) {
+        Entry e = activeEntry(c);
+        SharedPreferences.Editor ed = prefs(c).edit();
+        if (e != null) ed.putLong(K_DONE_AT, e.at);
+        ed.remove(K_TEST_UNTIL);
+        ed.apply();
     }
 
     /** When the current pause ends (epoch ms), or 0 if apps are not paused. */
@@ -191,7 +214,7 @@ public final class PrayFirstStore {
         if (test > now) end = test;
         Entry active = activeEntry(c);
         if (active != null) {
-            long activeEnd = active.at + loadConfig(c).blockMinutes * 60_000L;
+            long activeEnd = active.at + spanMs(loadConfig(c));
             if (activeEnd > end) end = activeEnd;
         }
         return end;

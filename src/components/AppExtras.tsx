@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { isNative } from "@/lib/native";
 import { Bell, BellOff, Download, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -58,14 +59,14 @@ export function AppExtras() {
 
   useEffect(() => {
     const standalone = window.matchMedia("(display-mode: standalone)").matches;
-    if (!standalone) {
+    if (!standalone && !isNative()) {
       setShowInstall(true);
     }
 
     const onPrompt = (e: Event) => {
       e.preventDefault();
       setInstallEvt(e as InstallEvent);
-      setShowInstall(true);
+      if (!isNative()) setShowInstall(true);
     };
     const onInstalled = () => {
       setInstallEvt(null);

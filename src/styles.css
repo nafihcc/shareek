@@ -158,20 +158,20 @@
   --brand: oklch(0.38 0.085 166);
   --brand-soft: oklch(0.52 0.085 166);
   --gold: oklch(0.72 0.125 85);
-  --surface: oklch(0.984 0.002 250);
-  --mist: oklch(0.956 0.004 250);
-  --deep: oklch(0.2 0.02 255);
+  --surface: oklch(0.985 0.008 160);
+  --mist: oklch(0.962 0.016 160);
+  --deep: oklch(0.22 0.03 170);
   --glass: oklch(1 0 0);
-  --hairline: oklch(0.915 0.004 250);
+  --hairline: oklch(0.915 0.02 160);
   --panel: oklch(1 0 0);
-  --overlay: oklch(0.2 0.02 255);
+  --overlay: oklch(0.22 0.03 170);
 
   --card: oklch(1 0 0);
   --popover: oklch(1 0 0);
-  --muted-foreground: oklch(0.5 0.015 255);
+  --muted-foreground: oklch(0.48 0.025 170);
   --accent-foreground: oklch(0.22 0.03 85);
-  --border: oklch(0.915 0.004 250);
-  --input: oklch(0.915 0.004 250);
+  --border: oklch(0.915 0.02 160);
+  --input: oklch(0.915 0.02 160);
   --dial-shadow: inset 0 0 30px oklch(0 0 0 / 8%);
 
   --chart-3: oklch(0.58 0.06 190);
@@ -182,18 +182,18 @@
   --brand: oklch(0.78 0.11 166);
   --brand-soft: oklch(0.7 0.09 166);
   --gold: oklch(0.8 0.12 85);
-  --surface: oklch(0.165 0.01 255);
-  --mist: oklch(0.25 0.01 255);
-  --deep: oklch(0.95 0.004 250);
-  --panel: oklch(0.215 0.01 255);
-  --glass: oklch(0.215 0.01 255);
-  --hairline: oklch(0.33 0.01 255);
+  --surface: oklch(0.15 0.022 170);
+  --mist: oklch(0.27 0.03 170);
+  --deep: oklch(0.96 0.01 160);
+  --panel: oklch(0.2 0.025 170);
+  --glass: oklch(0.2 0.025 170);
+  --hairline: oklch(0.33 0.03 170);
   --card: var(--panel);
   --popover: var(--panel);
   --primary-foreground: oklch(0.17 0.02 166);
   --accent-foreground: oklch(0.2 0.03 85);
-  --muted-foreground: oklch(0.72 0.008 255);
-  --border: oklch(0.33 0.01 255);
+  --muted-foreground: oklch(0.74 0.02 165);
+  --border: oklch(0.33 0.03 170);
   --input: var(--border);
   --sidebar: var(--panel);
   --dial-shadow: inset 0 0 30px oklch(0 0 0 / 30%);
@@ -220,7 +220,7 @@
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
   border: 1px solid var(--border);
-  box-shadow: 0 1px 2px oklch(0.2 0.02 255 / 6%), 0 1px 1px oklch(0.2 0.02 255 / 4%);
+  box-shadow: 0 1px 2px oklch(0.3 0.06 170 / 8%), 0 4px 14px oklch(0.3 0.06 170 / 5%);
 }
 :root[data-design="pro"].dark .glass-panel {
   box-shadow: none;
@@ -249,17 +249,10 @@
 
 /* Emoji become quiet monochrome glyphs. */
 :root[data-design="pro"] [data-ui="tile-icon"] {
-  background-color: color-mix(in oklab, var(--brand) 9%, var(--panel));
+  background-color: color-mix(in oklab, var(--brand) 12%, var(--panel));
   color: var(--brand);
   border-radius: var(--radius-md);
   box-shadow: none;
-}
-:root[data-design="pro"] [data-ui="tile-icon"],
-:root[data-design="pro"] [data-ui="nav-icon"] {
-  filter: grayscale(1) contrast(1.05);
-}
-:root[data-design="pro"] [data-ui="tile-icon"] {
-  filter: grayscale(1);
 }
 
 /* Footer + mobile bar match the flat language. */

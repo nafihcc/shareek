@@ -14,7 +14,13 @@ export const FARD_PRAYERS: FardPrayer[] = ["fajr", "dhuhr", "asr", "maghrib", "i
 export interface PrayFirstConfig {
   /** Master switch. Off = nothing is scheduled and nothing is blocked. */
   enabled: boolean;
-  /** How long distracting apps stay blocked after each prayer time. */
+  /**
+   * "prayed": apps stay locked from the prayer time until you tap "I've prayed"
+   * (they release by themselves after 2 hours so a forgotten tap never locks you out).
+   * "timer": apps unlock by themselves `blockMinutes` after the prayer time.
+   */
+  unlock: "prayed" | "timer";
+  /** Timer mode only: how long apps stay locked after each prayer time. */
   blockMinutes: number;
   /** Strict mode removes the emergency-access button from the block screen. */
   strict: boolean;
@@ -23,10 +29,11 @@ export interface PrayFirstConfig {
   blockedPackages: string[];
 }
 
-export const BLOCK_MINUTE_OPTIONS = [10, 15, 20, 30, 45, 60] as const;
+export const BLOCK_MINUTE_OPTIONS = [5, 10, 15, 20, 30, 45, 60] as const;
 
 export const DEFAULT_PRAY_FIRST: PrayFirstConfig = {
   enabled: false,
+  unlock: "prayed",
   blockMinutes: 20,
   strict: false,
   prayers: {
@@ -76,6 +83,7 @@ function normalise(raw: Partial<PrayFirstConfig> | null): PrayFirstConfig {
   const minutes = Number(raw.blockMinutes);
   return {
     enabled: Boolean(raw.enabled),
+    unlock: raw.unlock === "timer" ? "timer" : "prayed",
     blockMinutes: Number.isFinite(minutes) && minutes >= 5 && minutes <= 120 ? minutes : base.blockMinutes,
     strict: Boolean(raw.strict),
     prayers,

@@ -23,6 +23,7 @@ export interface NativeStatus {
 
 interface NativeBridge {
   getInstalledApps(): string;
+  getAppIcon(pkg: string): string;
   getStatus(): string;
   saveConfig(json: string): void;
   saveSchedule(json: string): void;
@@ -44,6 +45,17 @@ export function isNative(): boolean {
   return typeof window !== "undefined" && typeof window.ShareekNative !== "undefined";
 }
 
+/** Runs a bridge call; any failure on the Android side becomes a harmless fallback. */
+function safe<T>(call: (bridge: NativeBridge) => T, fallback: T): T {
+  try {
+    const bridge = window.ShareekNative;
+    if (!bridge) return fallback;
+    return call(bridge);
+  } catch {
+    return fallback;
+  }
+}
+
 function parse<T>(raw: string | undefined, fallback: T): T {
   if (!raw) return fallback;
   try {
@@ -54,43 +66,46 @@ function parse<T>(raw: string | undefined, fallback: T): T {
 }
 
 export function getInstalledApps(): InstalledApp[] {
-  if (!window.ShareekNative) return [];
-  return parse<InstalledApp[]>(window.ShareekNative.getInstalledApps(), []);
+  return parse<InstalledApp[]>(safe((b) => b.getInstalledApps(), ""), []);
 }
 
 export function getNativeStatus(): NativeStatus | null {
-  if (!window.ShareekNative) return null;
-  return parse<NativeStatus | null>(window.ShareekNative.getStatus(), null);
+  return parse<NativeStatus | null>(safe((b) => b.getStatus(), ""), null);
+}
+
+/** Small PNG data URL for an app's launcher icon, or "" if unavailable. */
+export function getAppIcon(pkg: string): string {
+  return safe((b) => b.getAppIcon(pkg), "");
 }
 
 export function nativeSaveConfig(json: string): void {
-  window.ShareekNative?.saveConfig(json);
+  safe((b) => b.saveConfig(json), undefined);
 }
 
 export function nativeSaveSchedule(json: string): void {
-  window.ShareekNative?.saveSchedule(json);
+  safe((b) => b.saveSchedule(json), undefined);
 }
 
 export function nativeOpenAccessibilitySettings(): void {
-  window.ShareekNative?.openAccessibilitySettings();
+  safe((b) => b.openAccessibilitySettings(), undefined);
 }
 
 export function nativeRequestNotifications(): void {
-  window.ShareekNative?.requestNotificationPermission();
+  safe((b) => b.requestNotificationPermission(), undefined);
 }
 
 export function nativeOpenBatterySettings(): void {
-  window.ShareekNative?.openBatterySettings();
+  safe((b) => b.openBatterySettings(), undefined);
 }
 
 export function nativeStartTestWindow(minutes: number): void {
-  window.ShareekNative?.startTestWindow(minutes);
+  safe((b) => b.startTestWindow(minutes), undefined);
 }
 
 export function nativeTestAdhan(): void {
-  window.ShareekNative?.testAdhan();
+  safe((b) => b.testAdhan(), undefined);
 }
 
 export function nativeStopAdhan(): void {
-  window.ShareekNative?.stopAdhan();
+  safe((b) => b.stopAdhan(), undefined);
 }
