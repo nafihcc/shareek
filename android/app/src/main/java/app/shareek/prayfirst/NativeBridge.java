@@ -223,6 +223,7 @@ public class NativeBridge {
     public void startTestWindow(int minutes) {
         try {
             PrayFirstStore.startTestWindow(ctx(), minutes);
+            LockGuardService.startIfNeeded(ctx());
         } catch (Throwable t) {
             // Never let a failure reach the web page.
         }

@@ -28,6 +28,9 @@ public class PrayerAlarmReceiver extends BroadcastReceiver {
             }
         }
 
+        // Keep the lock alive even if the app is cleared from recents.
+        LockGuardService.startIfNeeded(context);
+
         // Chain to the next prayer. If none is left, ask the user to open the app.
         boolean armed = PrayFirstScheduler.scheduleNext(context);
         if (!armed && cfg.enabled) {

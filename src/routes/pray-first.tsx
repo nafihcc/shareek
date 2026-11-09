@@ -269,8 +269,8 @@ function PrayFirstPage() {
             />
             <SetupRow
               step={3}
-              title="Keep alarms on time"
-              body="Choose “Don't optimise” for Shareek so the adhan is never late."
+              title="Keep the lock running"
+              body="Choose “Don't optimise” for Shareek. On Xiaomi, Oppo, Vivo, Realme or Samsung also allow Autostart and lock Shareek in the recent-apps screen (long-press its card → Lock), so swiping it away can't stop the lock."
               action="Battery"
               onAction={nativeOpenBatterySettings}
             />

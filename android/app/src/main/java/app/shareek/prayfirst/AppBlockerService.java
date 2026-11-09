@@ -34,6 +34,7 @@ public class AppBlockerService extends AccessibilityService {
         if (!PrayFirstStore.isBlockingNow(this)) return;
 
         // One window change can raise several events; react once.
+        LockGuardService.startIfNeeded(this);
         long now = SystemClock.elapsedRealtime();
         if (now - lastBlockAt < 800L) return;
         lastBlockAt = now;
@@ -48,6 +49,12 @@ public class AppBlockerService extends AccessibilityService {
         } catch (RuntimeException ignored) {
             // If the system refuses, the user has still been sent home.
         }
+    }
+
+    @Override
+    protected void onServiceConnected() {
+        super.onServiceConnected();
+        LockGuardService.startIfNeeded(this);
     }
 
     @Override
